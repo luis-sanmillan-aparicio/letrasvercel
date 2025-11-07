@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscador de Letras</title>
+</head>
+<body style="background-color: black; color: orange; margin: 2rem; font-family: Arial, sans-serif;">
+    <h1 style="color: green;">Buscador de Letras</h1>
+    <form method="get">
+        <label for="song">Canción:</label><br>
+        <input name="song" id="song" value="{{ song }}" style="background-color: black; color: orange; border: 1px solid green;"><br><br>
+        <label for="artist">Artista:</label><br>
+        <input name="artist" id="artist" value="{{ artist }}" style="background-color: black; color: orange; border: 1px solid green;"><br><br>
+        <label for="album">Álbum (opcional):</label><br>
+        <input name="album" id="album" value="{{ album }}" style="background-color: black; color: orange; border: 1px solid green;"><br><br>
+        <button type="submit" style="background-color: green; color: black; border: none; padding: 0.5rem 1rem; cursor: pointer;">Buscar</button>
+    </form>
+
+    {% if results %}
+        <h2 style="color: green;">Resultado Genius</h2>
+        {% if results.genius.found %}
+            <h3 style="color: green;">{{ results.genius.title }}</h3>
+            <a href="{{ results.genius.url }}" target="_blank" style="color: orange;">Ver en Genius</a><br>
+            {% if results.genius.image %}
+                <img src="{{ results.genius.image }}" alt="Imagen" style="max-width: 200px; margin-top: 10px;">
+            {% endif %}
+        {% else %}
+            <p style="color: orange;">{{ results.genius.error }}</p>
+        {% endif %}
+
+        <h2 style="color: green;">Resultado LRCLIB</h2>
+        {% if results.lrclib.found %}
+            <h3 style="color: green;">Letras</h3>
+            <pre id="lyrics-text" style="white-space: pre-wrap; color: orange;">{{ results.lrclib.lyrics }}</pre>
+            <button onclick="copyLyrics()" style="background-color: green; color: black; border: none; padding: 0.3rem 0.8rem; cursor: pointer;">Copiar letra</button>
+            <button 
+                onclick="window.open('https://sanmillanluisantonio.pythonanywhere.com/', '_blank')" 
+                style="background-color: green; color: black; border: none; padding: 0.3rem 0.8rem; cursor: pointer; margin-left: 0.5rem;"
+            >Trabajar con la letra</button>
+            <script>
+                function copyLyrics() {
+                    const text = document.getElementById('lyrics-text').innerText;
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('Letra copiada al portapapeles');
+                    }).catch(() => {
+                        alert('Error al copiar la letra');
+                    });
+                }
+            </script>
+            {% if results.lrclib.syncedLyrics %}
+                <h3 style="color: green;">Letras sincronizadas</h3>
+                <pre style="white-space: pre-wrap; color: orange;">{{ results.lrclib.syncedLyrics }}</pre>
+            {% endif %}
+        {% else %}
+            <p style="color: orange;">{{ results.lrclib.error }}</p>
+        {% endif %}
+    {% endif %}
+
+    {% if error %}
+        <p style="color: orange;">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
