@@ -4,28 +4,22 @@
     <meta charset="UTF-8">
     <title>Buscador de Letras</title>
     <style>
-        #spinner-container {
+        #loading {
             display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(0, 0, 0, 0.75);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             color: orange;
             font-family: Arial, sans-serif;
             font-size: 1.2rem;
+            text-align: center;
+            margin-top: 2rem;
         }
-        #spinner {
+        #loading-spinner {
             border: 4px solid orange;
             border-top: 4px solid green;
             border-radius: 50%;
             width: 40px;
             height: 40px;
             animation: spin 0.8s linear infinite;
-            margin-bottom: 1rem;
+            margin: 0 auto 1rem auto;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -35,7 +29,7 @@
 </head>
 <body style="background-color: black; color: orange; margin: 2rem; font-family: Arial, sans-serif;">
     <h1 style="color: green;">Buscador de Letras</h1>
-    <form method="get" onsubmit="showSpinner()">
+    <form method="get" onsubmit="showLoading()">
         <label for="song">Canción:</label><br>
         <input name="song" id="song" value="{{ song }}" style="background-color: black; color: orange; border: 1px solid green;"><br><br>
         <label for="artist">Artista:</label><br>
@@ -45,9 +39,9 @@
         <button type="submit" style="background-color: green; color: black; border: none; padding: 0.5rem 1rem; cursor: pointer;">Buscar</button>
     </form>
 
-    <div id="spinner-container">
-        <div id="spinner"></div>
-        <div>Conectando con APIs</div>
+    <div id="loading">
+        <div id="loading-spinner"></div>
+        Conectando con APIs
     </div>
 
     {% if results %}
@@ -68,7 +62,7 @@
             <pre id="lyrics-text" style="white-space: pre-wrap; color: orange;">{{ results.lrclib.lyrics }}</pre>
             <button onclick="copyLyrics()" style="background-color: green; color: black; border: none; padding: 0.3rem 0.8rem; cursor: pointer;">Copiar letra</button>
             <button 
-                onclick="window.open('https://sanmillanluisantonio.pythonanywhere.com/', '_blank')" 
+                onclick="window.open('https://sanmillanluisantonio.pythonanyonewhere.com/', '_blank')" 
                 style="background-color: green; color: black; border: none; padding: 0.3rem 0.8rem; cursor: pointer; margin-left: 0.5rem;"
             >Trabajar con la letra</button>
             <script>
@@ -95,8 +89,8 @@
     {% endif %}
 
     <script>
-        function showSpinner() {
-            document.getElementById('spinner-container').style.display = 'flex';
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
         }
     </script>
 </body>
