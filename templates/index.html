@@ -22,6 +22,10 @@
             margin: 0 auto 1rem auto;
             margin-left: 12ch;
         }
+        #loading-text {
+            text-align: left;
+            margin-left: 12ch;
+        }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -42,7 +46,7 @@
 
     <div id="loading">
         <div id="loading-spinner"></div>
-        Conectando con APIs
+        <div id="loading-text">Conectando con APIs</div>
     </div>
 
     {% if results %}
